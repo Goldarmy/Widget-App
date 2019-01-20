@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block body %}
+  <h1 class="text-center">Page Not Found</h1>
+  <p class="text-center">Whatever you did, it's not working :(</p>
+  <p class="text-center">What you were looking for is just not there.
+  <p class="text-center"><a href="{{ url_for('index') }}">Go somewhere nice</a>
+{% endblock %}

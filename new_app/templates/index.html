@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h2>Home Page</h2>
+
+<div>
+    <form method="POST" action="{{ url_for('add') }}">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mt-2 mb-3">Add New Widget</legend>
+            <div class="form-row">
+                <div class="form-group mr-4">
+                    {% if form.name.errors %}
+                    {{ form.name(class="form-control form-control-md is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.name.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.name(class="form-control form-control-md", placeholder="Widget Name") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mr-4">
+                    {% if form.cost.errors %}
+                    {{ form.cost(class="form-control form-control-md is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.cost.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.cost(class="form-control form-control-md", placeholder="Widget Cost") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Cost</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    {% for widget in widgets %}
+    <tr>
+        <form method="POST" action="{{ url_for('update', widget_id=widget.id ) }}">
+            <th scope="row">{{ widget.id }}</th>
+            <td><input class="form-control" type="text" value="{{ widget.name }}" name="widget_name"></td>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">$</div>
+                    </div>
+                    <input type="text" class="form-control" value="{{ widget.cost }}" name="widget_cost">
+                </div>
+            <td>
+                <input type="submit" class=" updatebtn btn btn-success btn-sm" value="Update">
+            </td>
+        </form>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                    data-target="#deleteWidgetModal" data-widget="{{ widget }}">
+                Delete
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteWidgetModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Widget?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" action="" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
