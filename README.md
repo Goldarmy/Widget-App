@@ -1,3 +1,3 @@
 # Widget-App
-Simple app to add, edit and delete widgets
-Deployment is done utilizing heroku
+Simple app to add, edit and delete widgets.
+Deployment is done utilizing heroku platform.
